@@ -1,0 +1,120 @@
+import path from 'path'
+import webpack from 'webpack'
+
+export default [{
+  entry: {
+    "index": './src/AuthUtils.js',
+    "index.min": './src/AuthUtils.js',
+  },
+  devtool: 'source-map',
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, 'lib/AuthUtils/'),
+    publicPath: '/'
+  },
+  target: 'node',
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: /src/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }
+    ]
+  },
+  node: {
+    fs: 'empty'
+  },
+  plugins : [
+    new webpack.DefinePlugin({ "global.GENTLY": false })
+  ]
+  // resolve: {
+  //   alias: {
+  //     hiredis: path.resolve(__dirname, 'hiredis.js')
+  //   }
+  // },
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     XMLHttpRequest: ['xmlhttprequest', 'XMLHttpRequest']
+  //   })
+  // ]
+},{
+  entry: {
+    "index": './src/index.js',
+    "index.min": './src/index.js',
+  },
+  devtool: 'source-map',
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, 'lib/'),
+    publicPath: '/'
+  },
+  target: 'web',
+  //progress: true,
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: /src/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }
+    ]
+  },
+  // node: {
+  //   fs: 'empty'
+  // },
+//  plugins : [
+    //new webpack.DefinePlugin({ "global.GENTLY": false })
+//  ]
+  // resolve: {
+  //   alias: {
+  //     hiredis: path.resolve(__dirname, 'hiredis.js')
+  //   }
+  // },
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     XMLHttpRequest: ['xmlhttprequest', 'XMLHttpRequest']
+  //   })
+  // ]
+}]
+//
+//
+// // webpack.config.js
+// var webpack = require('webpack');
+// var path = require('path');
+// var libraryName = 'library';
+// var outputFile = libraryName + '.js';
+//
+// var config = {
+//   entry: __dirname + '/src/index.js',
+//   devtool: 'source-map',
+//   output: {
+//     path: __dirname + '/lib',
+//     filename: outputFile,
+//     library: libraryName,
+//     libraryTarget: 'umd',
+//     umdNamedDefine: true
+//   },
+//   module: {
+//     loaders: [
+//       {
+//         test: /(\.jsx|\.js)$/,
+//         loader: 'babel',
+//         exclude: /(node_modules|bower_components)/
+//       },
+//       {
+//         test: /(\.jsx|\.js)$/,
+//         loader: "eslint-loader",
+//         exclude: /node_modules/
+//       }
+//     ]
+//   },
+//   resolve: {
+//     root: path.resolve('./src'),
+//     extensions: ['.js']
+//   }
+// };
+//
+// module.exports = config;
