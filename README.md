@@ -1,31 +1,26 @@
+# Authenticate
 
-Wrapper library for Auth0 authentication/authorization
+Authenticate is a simple library to add authentication to your web application
 
-## Usage
-
-#### what you should know:
-
-- **Authentication** is the verification of the credentials of the connection attempt. This process consists of sending the credentials from the remote access client to the remote access server in an either plaintext or encrypted form by using an authentication protocol.
-
-- **Authorization**  is the verification that the connection attempt is allowed. Authorization occurs after successful authentication. (the correct spelling is Authorisation - but we're note dealing with the Queens english)
-
-- Expects **RS256** to be enabled on the client configuration
-
-### How to install
+## Install
 ```bash
 npm install git+ssh://git@github.com/ArupAus/react-authenticate.git#v3.2.0 --save
 - or -
 npm install https://github.com/ArupAus/react-authenticate#v3.2.0 --save
 ```
 
-### web *authentication* code example:
+## Usage
 
-**Note**: Expected use for this code is for *authentication* only.
+### **Simple** example
+
+TBA
+
+### **React** example
 
 Imports:
 
 ```js
-import { AuthProvider, withAuth } from 'react-authenticate'
+import { AuthProvider, withAuth } from 'authenticate'
 ```
 
 Rendering:
@@ -86,101 +81,97 @@ render(
 - domain: take from auth0 client
 - options: any options you want to pass into Auth0Lock (__languageDictionary and theme are recommended!__)
 
-### *authorization* code example:
+## Authorization tools
+
+This library provides a range of tools check a JWT and to build out your own form of Authorization if you so wish.
+
+### **Authorization** example
 
 Usually run in server-side code.
 
 **Note**: this example is from a graphql resolver:
 
+In this example a [JWT](https://jwt.io/) is passed from the request header into `ctx` in graphql. This token, once decoded, contains relevant user information in order to carry out authorization checks.
+
 Imports:
 
 ```js
-import { isIn, getTokenHeader, authflow } from 'react-authenticate/lib/AuthUtils'
+import { getTokenHeader, authflow } from 'react-authenticate/lib/AuthUtils'
 
 ```
 
-schema updated for graphql:
+Using a graphql query as per below:
 
 ```
+type Query {
+  checkAuthorization(inputs: AuthorizationInputs!) [Authorization]
+}
+
+type AuthorizationInputs {
+  groupsToCheckAgainst: [String]
+  rolesToCheckAgainst: [String]
+  permissionsToCheckAgainst: [String]
+}
+
 type Authorization {
-  groups: [String]
-  roles: [String]
-  permissions: [String]
+  authorized: Boolean
+  message: String
+  authorizations: [String]
 }
 ```
 
-and added to the context that gets sent to the resolver below in the `ctx`:
-
-```
-type Options {
-  ...
-  authz: Authorization
-}
-
-```
-
-Resolver:
+And a resolver:
 
 ```js
 
-options: (root, args, ctx) => {
+checkAuthorization: (root, args, ctx) => {
+
+  const {
+    groupsToCheckAgainst,
+    rolesToCheckAgainst,
+    permissionsToCheckAgainst
+  } = args.inputs
 
   // expects header.Authorization = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...."
   // in this case it's part of the ctx object that's getting passed.
   const token = getTokenHeader(ctx)
 
-  // promisified (?) - decode token, check validity then return the users
-  // authorization object from their app_metadata
-  // future state would be for the authorization data to live in the app itself.
   return authflow(token)
-    .then(authz => {
-      // authorization : {
-      //  groups : [ 'group1' ],
-      //  permissions : [ 'perm1']
-      //  role : [ 'role1' ]  
-      //  }
+    .then(decodedToken => {
 
-      const userGroups = authz.groups
-      const appGroups = ctx.config.authz.groups
+      // decodedToken contains user information to check the users groups / roles / permissions
+      return performSomeQueryToGetPermissionsLists(decodedToken)
 
-      if (isIn(appGroups, userGroups)) {
-        //faster this way around. lol.
-        console.log('OPTIONS:')
-        console.log(ctx.config)
-        return ctx.config
-      } else {
-        throw new Error('403: Not Authorized')
+    })
+    .then(userInformation => {
+
+      let permissions = []
+
+      //check user's information against the lists of groups / roles / permissions passed in from Query
+      if(checkIfUsersIsInGroups(userInformation, groupsToCheckAgainst){
+        permissions.push(checkIfUsersIsInGroups(userInformation, groupsToCheckAgainst))
       }
+      if(checkIfUsersHasRoles(userInformation, rolesToCheckAgainst){
+        permissions.push(checkIfUsersHasRoles(userInformation, rolesToCheckAgainst))
+      }
+      if(checkIfUsersHasPermissions(userInformation, permissionsToCheckAgainst){
+        permissions.push(checkIfUsersHasPermissions(userInformation, permissionsToCheckAgainst))
+      }
+
+      if (permissions.length > 0){
+
+        return { authorized: true, message: 'user is authorised' permissions: permissions}
+
+      } else {
+
+        return { authorized: false, message: 'user is not authorised' permissions: permissions}
+
+      }      
     })
-    .catch(e => {
-      throw new Error(`401: Not Authenticated, ${e}`)
-    })
+  })
 
 ```
 
-### What is going in `authflow`?
+## Contributing
 
-- decoding the token to extract the keyid
-- invoking the JWKS client to get the latest JWKS key set https://auth0.com/docs/jwks
-- matching the keyid to the current keyset to get the key used to sign the request
-- verifying the token matches the expected signing key
-- return of the app_metadata of the user
-
-## On `app_metadata`:
-
-The OIDC does not allow for arbitrary claims that are not defined in the spec, thus a rule exists in the auth0 tenant configuration to add the app_metadata. This should be seen as a temporary measure while existing mechanisms catch up to store authorization information in the application configuration. The data is exists in the user['http://authz.arup.digital/'] namespace.
-
-rule:
-
-```js
-function (user, context, callback) {
-  const namespace = 'http://authz.arup.digital/';
-  context.idToken[namespace + 'authorization'] = user.app_metadata.authorization;
-  callback(null, user, context);
-}
-
-```
-
-## Updating
-
-You must run `npm run build` before pushing to master, so the lib folder is created/updated
+Please run the `build` script before pushing to master
