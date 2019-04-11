@@ -3,10 +3,11 @@
 Authenticate is a simple library to add authentication to your web application
 
 ## Install
+
 ```bash
-npm install git+ssh://git@github.com/ArupAus/react-authenticate.git#v3.2.0 --save
+npm install git+ssh://git@github.com/ArupAus/authenticate.git --save
 - or -
-npm install https://github.com/ArupAus/react-authenticate#v3.2.0 --save
+npm install https://github.com/ArupAus/authenticate --save
 ```
 
 ## Usage
@@ -20,49 +21,47 @@ TBA
 Imports:
 
 ```js
-import { AuthProvider, withAuth } from 'authenticate'
+import { AuthProvider, withAuth } from "authenticate";
 ```
 
 Rendering:
 
 ```js
-
 //customisation options
 let auth0Options = {
   languageDictionary: {
-    title: 'My Viewer'
+    title: "My Viewer"
   },
   theme: {
     labeledSubmitButton: false,
-    logo: 'https://s3-ap-southeast-2.amazonaws.com/arupdigital-assets/logo.png',
-    primaryColor: '#27AAE1'
+    logo: "https://s3-ap-southeast-2.amazonaws.com/arupdigital-assets/logo.png",
+    primaryColor: "#27AAE1"
   }
-}
+};
 
 class AuthWall extends Component {
   componentDidMount() {
-    const { auth } = this.props
+    const { auth } = this.props;
     if (!auth.loggedIn) {
-      auth.login()
+      auth.login();
     }
   }
   componentDidUpdate() {
-    const { auth } = this.props
+    const { auth } = this.props;
     if (!auth.loggedIn) {
-      auth.login()
+      auth.login();
     }
   }
   render() {
-    const { auth } = this.props
+    const { auth } = this.props;
     if (auth.loggedIn) {
-      return <Entry auth={auth} />
+      return <Entry auth={auth} />;
     }
-    return null
+    return null;
   }
 }
 
-const ConnectedAuthWall = withAuth(AuthWall)
-
+const ConnectedAuthWall = withAuth(AuthWall);
 
 render(
   <AuthProvider
@@ -74,12 +73,12 @@ render(
     <ConnectedAuthWall />
   </AuthProvider>,
   getRoot()
-)
-
+);
 ```
+
 - clientID: taken from auth0 client
 - domain: take from auth0 client
-- options: any options you want to pass into Auth0Lock (__languageDictionary and theme are recommended!__)
+- options: any options you want to pass into Auth0Lock (**languageDictionary and theme are recommended!**)
 
 ## Authorization tools
 
@@ -96,8 +95,7 @@ In this example a [JWT](https://jwt.io/) is passed from the request header into 
 Imports:
 
 ```js
-import { getTokenHeader, authflow } from 'react-authenticate/lib/AuthUtils'
-
+import { getTokenHeader, authflow } from "react-authenticate/lib/AuthUtils";
 ```
 
 Using a graphql query as per below:
@@ -166,7 +164,7 @@ checkAuthorization: (root, args, ctx) => {
 
         return { authorized: false, message: 'user is not authorised' permissions: permissions}
 
-      }      
+      }
     })
   })
 
