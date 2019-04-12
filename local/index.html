@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Test file</title>
+
+    <script
+      type="text/javascript"
+      src="../local/compiled.js"
+    ></script>
+
+  </head>
+
+  <body>
+
+    <div id="container">
+      <div
+        id="gallery"
+        style="min-height:100vh; max-height:100vh;"
+      >
+        <div onclick="goFetch()">click me to check authorization</div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var auth0Options = {
+        languageDictionary: {
+          title: "My Viewer"
+        },
+        theme: {
+          labeledSubmitButton: false,
+          logo: "https://s3-ap-southeast-2.amazonaws.com/arupdigital-assets/logo.png",
+          primaryColor: "#27AAE1"
+        }
+      };
+
+      var authInfo = {
+        title:"UUS Viewer",
+        clientId:"XsRizzzA1C9i57X7ZupmpOrvD51MpgeL",
+        domain:"arupdigital.au.auth0.com",
+        options:{auth0Options}
+      }
+
+      var auth = new AuthProvider(authInfo)
+
+      var url = 'https://portal.arup.digital/graphql'
+
+      var body = JSON.stringify({
+        query: `query authorizeUser($url: String){authorizeUser(url: $url)}`,
+        variables: { url: window.location.origin }
+      })
+
+      function goFetch(){
+
+        var options = {
+          method: "POST",
+          mode: "cors",
+          headers: {
+              "Content-Type": "application/json",
+              "authorization": "Bearer " + auth.token,
+          },
+          body: body,
+        }
+
+        fetch(url, options).then(a => a.json()).then(d => console.log(d))
+      }
+
+    </script>
+  </body>
+</html>

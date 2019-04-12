@@ -3,7 +3,6 @@ coverage
 
 //local files
 .DS_Store
-index.html
 
 //package manager
 yarn-error.log
