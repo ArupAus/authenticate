@@ -12,9 +12,57 @@ npm install https://github.com/ArupAus/authenticate --save
 
 ## Usage
 
+Currently Authenticate supports Auth0 as the service provider. All examples use the following info:
+
+- clientID: taken from auth0 client
+- domain: take from auth0 client
+- options: any options you want to pass into Auth0Lock (**languageDictionary and theme are recommended!**)
+
 ### **Simple** example
 
-TBA
+Download / copy the source file from `lib/compiled.js`
+
+Include it in your project:
+
+```html
+<script type="text/javascript" src="pathToFolder/compiled.js" ></script>
+```
+
+Call an instance of the `AuthProvider`:
+
+```html
+<script type="text/javascript">
+
+  var auth0Options = {
+    languageDictionary: {
+      title: "My Viewer"
+    },
+    theme: {
+      labeledSubmitButton: false,
+      logo: "https://s3-ap-southeast-2.amazonaws.com/arupdigital-assets/logo.png",
+      primaryColor: "#27AAE1"
+    }
+  };
+
+  var authInfo = {
+    title:"UUS Viewer",
+    clientId:"XsRizzzA1C9i57X7ZupmpOrvD51MpgeL",
+    domain:"arupdigital.au.auth0.com",
+    options:{auth0Options}
+  }
+
+  //By creating the AuthProvider object with the 'new' keyword the page will
+  //automatically show an auth0 login screen if no token is detected.
+  //Once a token is detected, the auth object will contain information such as the token.
+  var auth = new AuthProvider(authInfo)
+
+  //NOTE: the AuthProvider object obtains its auth information via an asynchronous purpose.
+  //This means that attempting to use the auth object immediately on page load is
+  //likely to result in it being empty. You should wrap uses of the auth object properties
+  //in functions that can be used once the data has been loaded.
+
+</script>
+```
 
 ### **React** example
 
@@ -27,7 +75,6 @@ import { AuthProvider, withAuth } from "authenticate";
 Rendering:
 
 ```js
-//customisation options
 let auth0Options = {
   languageDictionary: {
     title: "My Viewer"
@@ -75,10 +122,6 @@ render(
   getRoot()
 );
 ```
-
-- clientID: taken from auth0 client
-- domain: take from auth0 client
-- options: any options you want to pass into Auth0Lock (**languageDictionary and theme are recommended!**)
 
 ## Authorization tools
 
@@ -172,4 +215,4 @@ checkAuthorization: (root, args, ctx) => {
 
 ## Contributing
 
-Please run the `build` script before pushing to master
+Please run the `build` and `compile` scripts before pushing changes
