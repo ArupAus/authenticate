@@ -65,7 +65,7 @@ $authorized = $result['data']['authorizeUser']['auth'];
 
       var authInfo = {
         title:"UUS Viewer",
-        clientId:"XsRizzzA1C9i57X7ZupmpOrvD51MpgeL",
+        clientId:"6zv6rmrO9TbI0M7xGQ71v1Xyshw01CJv",
         domain:"arupdigital.au.auth0.com",
         options:{auth0Options}
       }
