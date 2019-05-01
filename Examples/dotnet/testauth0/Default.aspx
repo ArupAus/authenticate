@@ -18,7 +18,7 @@
     <br />
     <br />
     
-<script src="./compiled.js" language="javascript" type="text/javascript"></script>
+<script src="./Scripts/compiled.js" language="javascript" type="text/javascript"></script>
 
     <script type="text/javascript">
 
