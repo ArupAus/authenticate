@@ -8,6 +8,12 @@
     
     <div onclick="enterSite()">click here to enter site</div>
 
+    <div>this is pubVar: <%=pubVar%></div>
+    
+    <% if (pubVar){%>
+    <div>hidden content</div>
+    <%}%>
+
     <br />
     <br />
     <br />
@@ -15,6 +21,9 @@
 <script src="./compiled.js" language="javascript" type="text/javascript"></script>
 
     <script type="text/javascript">
+
+        var backendVar = "<%=pubVar%>";
+        console.log(backendVar);
 
       var auth0Options = {
         languageDictionary: {

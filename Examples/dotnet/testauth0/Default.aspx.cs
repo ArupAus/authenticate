@@ -12,6 +12,8 @@ namespace testauth0
 {
     public partial class _Default : Page
     {
+        protected bool pubVar;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -53,15 +55,14 @@ namespace testauth0
             string responseFromServer = reader.ReadToEnd();
             // Display the content.
             dynamic obj = JsonConvert.DeserializeObject(responseFromServer);
-            
 
-            var messageFromServer = obj;
+            
             try
             {
-                var data = obj.data;
+                this.pubVar = obj.data.authorizeUser.auth;
             } catch
             {
-                var data = obj.error;
+                this.pubVar = false;
             }
             hello.Text += responseFromServer;
 
