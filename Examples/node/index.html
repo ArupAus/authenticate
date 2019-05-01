@@ -19,12 +19,12 @@
         id="gallery"
         style="min-height:100vh; max-height:100vh;"
       >
-        <div onclick="goFetch()">click me to check authorization</div>
 
       </div>
     </div>
 
     <script type="text/javascript">
+
       var auth0Options = {
         languageDictionary: {
           title: "My Viewer"
@@ -45,27 +45,51 @@
 
       var auth = new AuthProvider(authInfo)
 
-      var url = 'https://portal.arup.digital/graphql'
+      let fetchUrl = 'https://portal-staging.arup.digital/graphql'
 
-      var body = JSON.stringify({
+      let body = JSON.stringify({
         query: `query authorizeUser($url: String){authorizeUser(url: $url)}`,
-        variables: { url: window.location.origin }
+        variables: { url: "https://tests-a1.map-staging.arup.digital/" }
       })
 
-      function goFetch(){
+      function tokenSet(){
+        enterSite(auth.token)
+      }
 
-        var options = {
+      function enterSite(token){
+
+        let options = {
           method: "POST",
           mode: "cors",
           headers: {
               "Content-Type": "application/json",
-              "authorization": "Bearer " + auth.token,
+              "authorization": "Bearer " + token,
           },
           body: body,
         }
 
-        fetch(url, options).then(a => a.json()).then(d => console.log(d))
+        let url = window.location.href
+        let tokenString = ""
+        if (token) {
+            tokenString = "token=" + token
+        }
+        if (url.indexOf("?") > -1) {
+            tokenString = "&" + tokenString
+        } else {
+            tokenString = "?" + tokenString
+        }
+        let target = window.location.href
+
+        fetch(fetchUrl, options).then(a => a.json()).then(d => {
+          if (target.indexOf("token") > -1) {
+              //we are at the site
+          } else {
+              window.location.href = window.location + tokenString
+          }
+        })
       }
+
+      auth.event.on('token_set', tokenSet);
 
     </script>
   </body>
