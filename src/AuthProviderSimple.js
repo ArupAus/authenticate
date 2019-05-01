@@ -2,6 +2,7 @@ import { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import Auth0Lock from 'auth0-lock'
 import authType from './authType'
+import EventEmitter from './EventEmitter.js'
 import https from 'https'
 
 const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'portal-token'
@@ -10,7 +11,9 @@ const AUTHO_ALG = process.env.AUTH_ALG || 'RS256'
 const PORTAL_DOMAIN = process.env.PORTAL_DOMAIN || 'portal.arup.digital'
 const AUTH_NAMESPACE = 'http://authz.arup.digital/authorization'
 
-function AuthProviderSimple(info) {
+function AuthProviderSimple(info, redirect, fetchUrl) {
+
+  this.event = new EventEmitter();
 
   this.parsed = false
 
@@ -58,7 +61,7 @@ function AuthProviderSimple(info) {
     })
   }
 
-  this.doAuthentication = function(authResult) {
+  this.doAuthentication = (authResult) => {
     this.setToken(authResult.idToken)
     this.token = authResult.idToken
     this.token = authResult.idToken
@@ -70,6 +73,8 @@ function AuthProviderSimple(info) {
     this.lock.hide()
     // leaving this at 'parsed' to help anyone that is relying on it..
     this.parsed = true
+
+    this.event.emit('token_set')
   }
 
   this.authError = function(error){
