@@ -47,8 +47,6 @@
             enterSite(auth.token)
         }
 
-        console.log(<% =testString %>)
-
         function enterSite(token) {
             var url = window.location.href
             var tokenString = ""
