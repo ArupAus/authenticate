@@ -1,29 +1,25 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="testauth0._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
-
-<asp:Label ID="hello" runat="server" Text="Label" Height="50%" Width="100%"></asp:Label>
-<asp:Label ID="token" runat="server" Text="Label" Height="50%" Width="100%"></asp:Label>
-    
-    <div onclick="enterSite()">click here to enter site</div>
-
-    <div>this is pubVar: <%=pubVar%></div>
     
     <% if (pubVar){%>
-    <div>hidden content</div>
+        <div>
+            config content: <% =testStringConfigText %>
+        </div>
+        <div>
+            Insert your app here...
+        </div>
+    <%} else {%>
+        <link rel = "stylesheet" type = "text/css" href = "./Content/Loading.css" />
+        <div id="loading-wrapper">
+            <div id="loading-text">Loading...</div>
+            <div id="loading-content"></div>
+        </div>
     <%}%>
-
-    <br />
-    <br />
-    <br />
     
 <script src="./Scripts/compiled.js" language="javascript" type="text/javascript"></script>
 
     <script type="text/javascript">
-
-        var backendVar = "<%=pubVar%>";
-        console.log(backendVar);
 
       var auth0Options = {
         languageDictionary: {
@@ -45,11 +41,19 @@
 
         var auth = new AuthProvider(authInfo)
 
-        function enterSite() {
+        auth.event.on('token_set', tokenSet);
+
+        function tokenSet() {
+            enterSite(auth.token)
+        }
+
+        console.log(<% =testString %>)
+
+        function enterSite(token) {
             var url = window.location.href
             var tokenString = ""
-            if (auth.token) {
-                tokenString = "token=" + auth.token
+            if (token) {
+                tokenString = "token=" + token
             }
             if (url.indexOf("?") > -1) {
                 tokenString = "&" + tokenString
@@ -58,7 +62,7 @@
             }
             var target = window.location.href
             if (target.indexOf("token") > -1) {
-                window.location.href = target
+                // do something
             } else {
                 window.location.href = window.location + tokenString
             }
