@@ -18,6 +18,8 @@ Currently Authenticate supports Auth0 as the service provider. All examples use 
 - domain: take from auth0 client
 - options: any options you want to pass into Auth0Lock (**languageDictionary and theme are recommended!**)
 
+For users new to developing websites or applications with sensitive information it is recommended that you read up on [Protection of Sensitive Content for Privileged Access](./PROTECTINGCONTENT.md)
+
 ### **Simple** example
 
 Download / copy the source file from `lib/compiled.js`
