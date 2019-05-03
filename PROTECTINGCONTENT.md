@@ -28,9 +28,9 @@ Often the source of confusion, the terms Authentication and Authorization are ge
 
 *Authentication* is validation that a user is who they say they are. By determining that the user is authentic we can safely identify who this user is. Authentication, by this definition does not grant a user access to protected content. That will require an additional step known as *Authorization*.
 
-### JSON Web Tokens (JWT)
+### JSON Web Tokens ([JWT](http://jwt.io))
 
-In this repository, the authentication flow ends with a user being issued a [JWT](http://jwt.io). The JWT acts as a users 'passport'.
+In this repository, the authentication flow ends with a user being issued a JWT. The JWT acts as a users 'passport'.
 Like a real passport, the JWT can be given to other users or entities for them to identify who the holder is. Also like a passport, a JWT cannot be transferred to another user by changing the name on the passport / JWT.
 These tokens are passed around and used for the purposes of authenticating a user during an authorization.
 
