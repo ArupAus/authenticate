@@ -48,8 +48,11 @@ The only way we can properly control the content returned to the user is by carr
 
 ### Client side code
 
-If you have played around with web development before, chances are that you are familiar with HTML, CSS and possibly have experience writing some JavaScript code. JavaScript itself, being a scripting language, has the capability to implement the logic required to perform the authorization checks, however, these checks are no good if they are happening on the client side as all the outcomes, authorized or not, will have to be packaged up and sent to the user's web browser before they are even run.
-So why not run the JavaScript on the server prior to it making it to the user's browser? This is absolutely possible. The catch is that any given server is unlikely to have the ability to run JavaScript code by default, most servers just aren't set up this way. JavaScript running inside the user's browser will almost always work since all modern browsers contain some form of a JavaScript runtime, the most common one at the time of writing being V8.
+If you have played around with web development before, chances are that you are familiar with HTML, CSS and possibly have experience writing some JavaScript code.
+
+JavaScript itself, being a scripting language, has the capability to implement the logic required to perform the authorization checks, however, these checks are no good if they are happening on the client side as all the outcomes, authorized or not, will have to be packaged up and sent to the user's web browser before they are even run.
+
+So why not run the JavaScript on the server prior to it making it to the user's browser? This is absolutely possible. The catch is that any given server is unlikely to have the ability to run JavaScript code by default, most servers just aren't set up this way. JavaScript running inside the user's browser will almost always work since all modern browsers contain some form of a JavaScript runtime, the most common one at the time of writing being [V8](https://v8.dev/).
 
 ### Server side code
 
@@ -63,7 +66,7 @@ Once a user is authorised, the question remains; by what mechanism do we deliver
 ### Fetching it
 
 Consider the following example:
-```
+```html
 <html>
   <script type="text/javascript">
     function showMe(){
@@ -84,14 +87,14 @@ Consider the following example:
 ```
 > please note that the `ajax()` call above is pseudocode that represents a http request
 
-In the above example, our application has a function `showMe()` that makes a call or 'fetch' to the server where authorization is carried out and some protected content is returned. The returned information is then added to the html document. This method is typical in many applications where each bit of content is taken from the server as it is needed.
+In the above example, our application has a function `showMe()` that makes a call or 'fetch' to the server where authorization is carried out and some protected content is returned. The returned information is then added to the HTML document. This method is typical in many applications where each bit of content is taken from the server as it is needed.
 It also means unauthorized users will still see all of the other non-privileged elements of the website.
 
 ### Wrapping it
 
 But what if we have a pre-built website and we don't want to think about it too much. We could make it so that a large chunk, perhaps even the whole website / app is either returned or not based upon an authorization check?
 
-```
+```html
 <html>
   <body>
     <div>non-privileged information</div>
@@ -110,7 +113,7 @@ But what if we have a pre-built website and we don't want to think about it too 
 
 Note the php code being run in the above snippet. What you are seeing is part of the app (everthing inside the `<?php ... ?>` tags) is being run on the server before HTML is being delivered to the user. The HTML document that is returned to the user ends up looking like...
 
-```
+```html
 <html>
   <body>
     <div>non-privileged information</div>
@@ -122,7 +125,7 @@ Note the php code being run in the above snippet. What you are seeing is part of
 ```
 For authorised users
 and like...
-```
+```html
 <html>
   <body>
     <div>non-privileged information</div>
@@ -133,9 +136,11 @@ and like...
 ```
 for non-authorised users.
 
-This concept is known as 'wrapping'. This technique is what is employed when you use on of the example templates in the [Examples](./Examples) directory. I would suggest picking an example that aligns with a language or setup that you can run your server's environment and reading on from the examples in there.
+This concept is known as 'wrapping'. This technique is what is employed when you use on of the example templates in the [Examples](./Examples) directory. I would suggest picking an example that aligns with a language or setup that you can run your server's environment and reading on from the documentation in there.
 
 ## Summary
 Authentication is the first step in carrying out an authorization, all subsequent authorization 'checks' can be performed using the JWT provided during successful authentication.
+
 Authorizations and protected content delivery can only really be performed server-side.
+
 The client can consume protected content by either sending a http request to receive it or by requesting a wrapped webpage where their authorization is checked server-side.
