@@ -3,6 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     
     <% if (pubVar){%>
+        <%-- Insert your application here --%>
         <div>
             config content: <% =testStringConfigText %>
         </div>
@@ -10,6 +11,7 @@
             Insert your app here...
         </div>
     <%} else {%>
+        <%-- Display loading screen whilst authenticating --%>
         <link rel = "stylesheet" type = "text/css" href = "./Content/Loading.css" />
         <div id="loading-wrapper">
             <div id="loading-text">Loading...</div>
