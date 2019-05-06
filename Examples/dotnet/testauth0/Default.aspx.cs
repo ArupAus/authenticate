@@ -32,9 +32,7 @@ namespace testauth0
             req.ContentType = "application/json";
             req.Headers.Add(HttpRequestHeader.Authorization, tokenText);
 
-            string authText = "{ \"query\": \"query { authorizeUser(url: \\\"" + url + "?config=" + config + "\\\") } \"}";
-
-            this.testString = authText;
+            string authText = "{ \"query\": \"query { authorizeUser(url: \\\"" + url + "\\\", uuid: \\\"" + config + "\\\") } \"}";
 
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
             req.ContentLength = enc.GetBytes(authText).Length;
@@ -52,7 +50,9 @@ namespace testauth0
             string responseFromServer = reader.ReadToEnd();
             // Display the content.
             dynamic obj = JsonConvert.DeserializeObject(responseFromServer);
-            
+
+            this.testString = responseFromServer;
+
             try
             {
                 this.pubVar = obj.data.authorizeUser.auth;

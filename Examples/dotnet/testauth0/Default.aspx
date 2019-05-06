@@ -5,10 +5,13 @@
     <% if (pubVar){%>
         <%-- Insert your application here --%>
         <div>
-            config content: <% =testStringConfigText %>
-        </div>
-        <div>
             Insert your app here...
+            <div>
+                response from server: <% =testString %>
+            </div>
+            <div>
+                config content: <% =testStringConfigText %>
+            </div>
         </div>
     <%} else {%>
         <%-- Display loading screen whilst authenticating --%>
