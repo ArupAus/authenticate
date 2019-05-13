@@ -12,9 +12,9 @@ namespace testauth0
 {
     public partial class _Default : Page
     {
-        protected bool pubVar;
-        protected string testString;
-        protected string testStringConfigText;
+        protected string pubLoadCase;
+        protected string pubQueryAuth;
+        protected string pubQueryConfig;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -51,14 +51,35 @@ namespace testauth0
             // Display the content.
             dynamic obj = JsonConvert.DeserializeObject(responseFromServer);
 
-            this.testString = responseFromServer;
+            this.pubQueryAuth = responseFromServer;
+
+            System.Diagnostics.Debug.WriteLine(responseFromServer);
 
             try
             {
-                this.pubVar = obj.data.authorizeUser.auth;
+                if (string.IsNullOrEmpty(token))
+                {
+                    this.pubLoadCase = "loading";
+                }
+                else if (string.IsNullOrEmpty(config))
+                {
+                    this.pubLoadCase = "redirect";
+                }
+                else if (obj.data.authorizeUser.auth == "true")
+                {
+                    this.pubLoadCase = "allow";
+                }
+                else if (obj.data.authorizeUser.auth == "false")
+                {
+                    this.pubLoadCase = "deny";
+                }
+                else
+                {
+                    this.pubLoadCase = "deny";
+                }
             } catch
             {
-                this.pubVar = false;
+                this.pubLoadCase = "deny";
             }
 
             // Cleanup the streams and the response.
@@ -92,11 +113,11 @@ namespace testauth0
 
             try
             {
-                this.testStringConfigText = obj2.data.getConfig.config;
+                this.pubQueryConfig = obj2.data.getConfig.config;
             }
             catch
             {
-                this.testStringConfigText = "couldn't get config";
+                this.pubQueryConfig = "could not get config";
             }
 
             // Cleanup the streams and the response.
