@@ -71,7 +71,7 @@ Call an instance of the `AuthProvider`:
 Imports:
 
 ```js
-import { AuthProvider, withAuth } from "authenticate";
+import { AuthProviderReact, withAuth } from "authenticate";
 ```
 
 Rendering:
@@ -113,14 +113,14 @@ class AuthWall extends Component {
 const ConnectedAuthWall = withAuth(AuthWall);
 
 render(
-  <AuthProvider
+  <AuthProviderReact
     title="UUS Viewer"
     clientId="XsRizzzA1C9i57X7ZupmpOrvD51MpgeL"
     domain="arupdigital.au.auth0.com"
     options={auth0Options}
   >
     <ConnectedAuthWall />
-  </AuthProvider>,
+  </AuthProviderReact>,
   getRoot()
 );
 ```
@@ -217,4 +217,4 @@ checkAuthorization: (root, args, ctx) => {
 
 ## Contributing
 
-Please run the `build` and `compile` scripts before pushing changes
+Please run the `compile` script before pushing changes
