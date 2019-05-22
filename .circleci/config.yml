@@ -1,0 +1,34 @@
+version: 2
+jobs:
+    build:
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - add_ssh_keys:
+                fingerprints:
+                    - "ef:c5:c8:a0:3c:79:d3:9f:69:f3:ae:25:fe:9d:4e:af"
+            - checkout
+            - run:
+                name: update-npm
+                command: 'sudo npm install -g npm@latest'
+            - run:
+                name: installing
+                command: npm install
+            - run:
+                name: build
+                command: npm run compile
+            - run:
+                name: status
+                command: git status
+            - run:
+                name: add
+                command: git add .
+            - run:
+                name: add-user-credentials
+                command: git config user.email "caspar.jeffrey@arup.com" && git config user.name "CircleCi"
+            - run:
+                name: commit
+                command: git commit -m 'ci bumping compiled files [skip ci]'
+            - run:
+                name: push
+                command: git push -u origin master
