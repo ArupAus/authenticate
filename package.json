@@ -5,7 +5,6 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
-    "build": "babel src -d lib",
     "compile": "webpack --config=./webpack.config.babel.js"
   },
   "author": "Arup Digital (https://github.com/ArupAus/)",
