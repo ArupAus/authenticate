@@ -16,3 +16,4 @@ import AuthProvider, { getAuth } from './AuthProviderSimple'
 
 globalThis.AuthProvider = AuthProvider
 globalThis.getAuth = getAuth
+globalThis.test = 'test'
