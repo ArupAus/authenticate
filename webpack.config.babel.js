@@ -39,8 +39,9 @@ export default env => {
     },
     output: {
       path: DIST,
-      filename: 'compiled.js',
-      publicPath: './',
+      filename: 'index.js',
+      library: 'authenticate',
+      libraryTarget: 'commonjs2'
     },
     module: {
       rules: moduleRules,
