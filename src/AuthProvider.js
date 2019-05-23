@@ -44,11 +44,7 @@ export default class AuthProvider extends Component {
         logout: this.logout,
         userInfo: this.userInfo,
         getUserInfo: () => this.getUserInfo(),
-        getPortalUserGroups: () => this.getPortalUserGroups(),
-        authError: this.authError,
-        getUserInfoPromise: () => this.getUserInfoPromise(),
-        getUserRolesPromise: () => this.userRolesPromise(),
-        // TODO getUserInfoPromise, getUserRolesPromise to be phased out
+        authError: this.authError
       },
     }
   }
@@ -90,11 +86,7 @@ export default class AuthProvider extends Component {
       }
     })
   }
-  componentDidMount() {
-    // this.setState({
-    //   parsed: true,
-    // })
-  }
+
   isExpired(expiry) {
     // Check whether the current time is past the
     // access token's expiry time
@@ -122,44 +114,6 @@ export default class AuthProvider extends Component {
     })
   }
 
-  getPortalUserGroups() {
-    return this.getUserInfo().then(userInfo => {
-      return queryPortal(userInfo.sub)
-    })
-  }
-
-  getUserInfoPromise = () => {
-    //TODO deprecated
-    console.warn(
-      'getUserInfoPromise is soon to be deprecated, update to use getUserInfo()'
-    )
-    return new Promise((resolve, reject) => {
-      this.lock.getUserInfo(this.accessToken, (err, profile) => {
-        if (err) {
-          return reject(err)
-        }
-        return resolve(profile)
-      })
-    })
-  }
-  getUserRolesPromise = token => {
-    //TODO deprecated
-    console.warn(
-      'getUserRolesPromise is soon to be deprecated, update to use getUserInfo()'
-    )
-    this.userRolesPromise = new Promise((resolve, reject) => {
-      this.auth.client.userInfo(token, (err, profile) => {
-        if (err) {
-          return reject(err)
-        }
-        const roles =
-          profile[authorizationIdx] && profile[AUTH_NAMESPACE].roles
-            ? profile[authorizationIdx].roles
-            : []
-        return resolve(roles)
-      })
-    })
-  }
   setToken(token) {
     return this.props.window.localStorage.setItem(TOKEN_KEY, token)
   }
