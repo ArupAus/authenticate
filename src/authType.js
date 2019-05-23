@@ -7,9 +7,6 @@ export default PropTypes.shape({
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   getUserInfo: PropTypes.func,
-  getPortalUserGroups: PropTypes.func,
   authError: PropTypes.func.isRequired,
-  getUserInfoPromise: PropTypes.func,
-  getUserRolesPromise: PropTypes.func,
-  userInfo: PropTypes.object,
+  userInfo: PropTypes.object
 })

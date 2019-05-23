@@ -5,10 +5,9 @@ import authType from './authType'
 import EventEmitter from './EventEmitter.js'
 import https from 'https'
 
-const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'portal-token'
+const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'authenticate-token'
 const ACCESS_TOKEN_SUFFIX = '-access-token'
 const AUTHO_ALG = process.env.AUTH_ALG || 'RS256'
-const PORTAL_DOMAIN = process.env.PORTAL_DOMAIN || 'portal.arup.digital'
 const AUTH_NAMESPACE = 'http://authz.arup.digital/authorization'
 
 function AuthProviderSimple(info, redirect, fetchUrl) {

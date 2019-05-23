@@ -57,7 +57,6 @@ So why not run the JavaScript on the server prior to sending it to the user's br
 ### Server side code
 
 To follow on from the example above: JavaScript can run on a server if that server has the ability to do so. The most common server-side JavaScript runtime at the time of writing would be [Node.js](https://nodejs.org/en/). Aside from running JavaScript on the server, there are many other server side languages that may be more commonly installed or available on business-level servers. Some examples include php and the .Net runtime.
-To complete the authorization process in a number of server-side languages, see the [Examples](./Examples) directory.
 
 ## Protecting content
 
@@ -137,7 +136,7 @@ and like...
 ```
 ... for non-authorized users.
 
-This concept is known as 'wrapping'. This technique is what is employed when you use one of the example templates in the [Examples](./Examples) directory. I would suggest picking an example that aligns with a language or setup that you can run in your server's environment and reading on from the documentation in there.
+This concept is known as 'wrapping'. This technique is perhaps most easily employed for 'already-developed' applications
 
 ## Summary
 Authentication is the first step in carrying out an authorization, all subsequent authorization 'checks' can be performed using the JWT provided during successful authentication.

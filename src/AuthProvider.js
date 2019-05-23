@@ -4,57 +4,12 @@ import Auth0Lock from 'auth0-lock'
 import authType from './authType'
 import https from 'https'
 
-const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'portal-token'
+const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'authenticate-token'
 const ACCESS_TOKEN_SUFFIX = '-access-token'
 const AUTHO_ALG = process.env.AUTH_ALG || 'RS256'
-const PORTAL_DOMAIN = process.env.PORTAL_DOMAIN || 'portal.arup.digital'
 const AUTH_NAMESPACE = 'http://authz.arup.digital/authorization'
 
 export const getToken = () => window.localStorage.getItem(TOKEN_KEY)
-
-const queryPortal = auth0Id => {
-  return new Promise((resolve, reject) => {
-    let postData = JSON.stringify({
-      query: 'query test($auth0Id: String){userGroups(auth0Id: $auth0Id)}',
-      variables: { auth0Id: auth0Id },
-    })
-    let postOptions = {
-      host: PORTAL_DOMAIN,
-      path: '/graphql',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': postData.length,
-      },
-    }
-    let req = https.request(postOptions, res => {
-      if (res.statusCode < 200 || res.statusCode >= 300) {
-        return reject(new Error('statusCode=' + res.statusCode))
-      }
-      let body = []
-      res.on('data', chunk => {
-        body.push(chunk)
-      })
-      // resolve on end
-      res.on('end', () => {
-        try {
-          body = JSON.parse(Buffer.concat(body).toString())
-        } catch (e) {
-          return reject(e)
-        }
-        return resolve(body)
-      })
-    })
-    // reject on request error
-    req.on('error', err => {
-      return reject(err)
-    })
-    if (postData) {
-      req.write(postData)
-    }
-    req.end()
-  })
-}
 
 export const getAccessToken = () =>
   window.localStorage.getItem(TOKEN_KEY + ACCESS_TOKEN_SUFFIX)
@@ -89,11 +44,7 @@ export default class AuthProvider extends Component {
         logout: this.logout,
         userInfo: this.userInfo,
         getUserInfo: () => this.getUserInfo(),
-        getPortalUserGroups: () => this.getPortalUserGroups(),
-        authError: this.authError,
-        getUserInfoPromise: () => this.getUserInfoPromise(),
-        getUserRolesPromise: () => this.userRolesPromise(),
-        // TODO getUserInfoPromise, getUserRolesPromise to be phased out
+        authError: this.authError
       },
     }
   }
@@ -135,11 +86,7 @@ export default class AuthProvider extends Component {
       }
     })
   }
-  componentDidMount() {
-    // this.setState({
-    //   parsed: true,
-    // })
-  }
+
   isExpired(expiry) {
     // Check whether the current time is past the
     // access token's expiry time
@@ -167,44 +114,6 @@ export default class AuthProvider extends Component {
     })
   }
 
-  getPortalUserGroups() {
-    return this.getUserInfo().then(userInfo => {
-      return queryPortal(userInfo.sub)
-    })
-  }
-
-  getUserInfoPromise = () => {
-    //TODO deprecated
-    console.warn(
-      'getUserInfoPromise is soon to be deprecated, update to use getUserInfo()'
-    )
-    return new Promise((resolve, reject) => {
-      this.lock.getUserInfo(this.accessToken, (err, profile) => {
-        if (err) {
-          return reject(err)
-        }
-        return resolve(profile)
-      })
-    })
-  }
-  getUserRolesPromise = token => {
-    //TODO deprecated
-    console.warn(
-      'getUserRolesPromise is soon to be deprecated, update to use getUserInfo()'
-    )
-    this.userRolesPromise = new Promise((resolve, reject) => {
-      this.auth.client.userInfo(token, (err, profile) => {
-        if (err) {
-          return reject(err)
-        }
-        const roles =
-          profile[authorizationIdx] && profile[AUTH_NAMESPACE].roles
-            ? profile[authorizationIdx].roles
-            : []
-        return resolve(roles)
-      })
-    })
-  }
   setToken(token) {
     return this.props.window.localStorage.setItem(TOKEN_KEY, token)
   }

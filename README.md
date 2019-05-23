@@ -214,7 +214,3 @@ checkAuthorization: (root, args, ctx) => {
   })
 
 ```
-
-## Contributing
-
-Please run the `compile` script before pushing changes
