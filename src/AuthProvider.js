@@ -4,57 +4,12 @@ import Auth0Lock from 'auth0-lock'
 import authType from './authType'
 import https from 'https'
 
-const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'portal-token'
+const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'authenticate-token'
 const ACCESS_TOKEN_SUFFIX = '-access-token'
 const AUTHO_ALG = process.env.AUTH_ALG || 'RS256'
-const PORTAL_DOMAIN = process.env.PORTAL_DOMAIN || 'portal.arup.digital'
 const AUTH_NAMESPACE = 'http://authz.arup.digital/authorization'
 
 export const getToken = () => window.localStorage.getItem(TOKEN_KEY)
-
-const queryPortal = auth0Id => {
-  return new Promise((resolve, reject) => {
-    let postData = JSON.stringify({
-      query: 'query test($auth0Id: String){userGroups(auth0Id: $auth0Id)}',
-      variables: { auth0Id: auth0Id },
-    })
-    let postOptions = {
-      host: PORTAL_DOMAIN,
-      path: '/graphql',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': postData.length,
-      },
-    }
-    let req = https.request(postOptions, res => {
-      if (res.statusCode < 200 || res.statusCode >= 300) {
-        return reject(new Error('statusCode=' + res.statusCode))
-      }
-      let body = []
-      res.on('data', chunk => {
-        body.push(chunk)
-      })
-      // resolve on end
-      res.on('end', () => {
-        try {
-          body = JSON.parse(Buffer.concat(body).toString())
-        } catch (e) {
-          return reject(e)
-        }
-        return resolve(body)
-      })
-    })
-    // reject on request error
-    req.on('error', err => {
-      return reject(err)
-    })
-    if (postData) {
-      req.write(postData)
-    }
-    req.end()
-  })
-}
 
 export const getAccessToken = () =>
   window.localStorage.getItem(TOKEN_KEY + ACCESS_TOKEN_SUFFIX)
