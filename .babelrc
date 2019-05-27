@@ -13,5 +13,10 @@
     "transform-class-properties",
     "transform-object-rest-spread",
     "transform-es2015-arrow-functions",
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": ["env", "react"]
+    }
+  }
 }
