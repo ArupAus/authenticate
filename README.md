@@ -140,7 +140,9 @@ In this example a [JWT](https://jwt.io/) is passed from the request header into 
 Imports:
 
 ```js
-import { getTokenHeader, authflow } from "react-authenticate/lib/AuthUtils";
+import { AuthUtils } from "authenticate";
+const getTokenHeader = AuthUtils.getTokenHeader;
+const authflow = AuthUtils.authflow;
 ```
 
 Using a graphql query as per below:
