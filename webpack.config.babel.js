@@ -47,5 +47,10 @@ export default env => {
       rules: moduleRules,
     },
     mode: env === 'prod' ? 'production' : 'development',
+    node: {
+     fs: "empty",
+     tls: "empty",
+     net: "empty"
+   }
   }
 }
