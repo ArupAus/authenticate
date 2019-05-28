@@ -78,3 +78,14 @@ export function sign(data) {
     data: JSON.stringify(data)
   }, KEY)
 }
+
+const AuthUtils = {
+  isIn,
+  getSigningKey,
+  getTokenHeader,
+  decode,
+  authflow,
+  sign
+}
+
+export default AuthUtils
