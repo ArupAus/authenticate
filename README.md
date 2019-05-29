@@ -22,12 +22,12 @@ For users new to developing websites or applications with sensitive information 
 
 ### **Simple** example
 
-Download / copy the source file from `lib/compiled.js`
+Download / copy the source file from `lib/index.js`
 
 Include it in your project:
 
 ```html
-<script type="text/javascript" src="pathToFolder/compiled.js" ></script>
+<script type="text/javascript" src="pathToFolder/index.js" ></script>
 ```
 
 Call an instance of the `AuthProvider`:
@@ -140,9 +140,7 @@ In this example a [JWT](https://jwt.io/) is passed from the request header into 
 Imports:
 
 ```js
-import { AuthUtils } from "authenticate";
-const getTokenHeader = AuthUtils.getTokenHeader;
-const authflow = AuthUtils.authflow;
+import { getTokenHeader, authflow } from "authenticate/AuthUtils";
 ```
 
 Using a graphql query as per below:
