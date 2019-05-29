@@ -5,7 +5,7 @@ var nodeExternals = require('webpack-node-externals');
 
 const ROOT = path.resolve(__dirname)
 const SRC = path.join(ROOT, 'src')
-const DIST = path.join(ROOT, 'lib')
+const DIST = path.join(ROOT, '../lib')
 const NODE_MODULES = path.join(ROOT, 'node_modules')
 
 export default env => {
@@ -30,7 +30,7 @@ export default env => {
 
   return {
     entry: [
-      './src/index.js'
+      './BackEndUtils/index.js'
     ],
     devtool: 'source-map',
     resolve: {
@@ -41,7 +41,7 @@ export default env => {
     },
     output: {
       path: DIST,
-      filename: 'index.js',
+      filename: './AuthUtils.js',
       library: 'authenticate',
       libraryTarget: 'commonjs2'
     },
@@ -49,6 +49,7 @@ export default env => {
       rules: moduleRules,
     },
     mode: env === 'prod' ? 'production' : 'development',
+    externals: [nodeExternals()],
     node: {
       fs: "empty",
       tls: "empty",
