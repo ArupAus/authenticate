@@ -4,7 +4,7 @@ import webpack from 'webpack'
 var nodeExternals = require('webpack-node-externals');
 
 const ROOT = path.resolve(__dirname)
-const SRC = path.join(ROOT, 'src')
+const SRC = path.join(ROOT, 'BackEndUtils')
 const DIST = path.join(ROOT, '../lib')
 const NODE_MODULES = path.join(ROOT, 'node_modules')
 
@@ -16,17 +16,6 @@ export default env => {
       loader: 'babel-loader',
     }
   ]
-  if (env === 'dev') {
-    moduleRules.push({
-      test: /\.(js|jsx)$/,
-      include: SRC,
-      loader: require.resolve('babel-loader'),
-      options: {
-        cacheDirectory: true,
-        plugins: ['react-hot-loader/babel'],
-      },
-    })
-  }
 
   return {
     entry: [
@@ -49,11 +38,6 @@ export default env => {
       rules: moduleRules,
     },
     mode: env === 'prod' ? 'production' : 'development',
-    externals: [nodeExternals()],
-    node: {
-      fs: "empty",
-      tls: "empty",
-      net: "empty"
-    }
+    externals: [nodeExternals()]
   }
 }
