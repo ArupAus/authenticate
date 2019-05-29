@@ -58,10 +58,19 @@ Call an instance of the `AuthProvider`:
   //Once a token is detected, the auth object will contain information such as the token.
   var auth = new AuthProvider(authInfo)
 
-  //NOTE: the AuthProvider object obtains its auth information via an asynchronous purpose.
+  //NOTE: the AuthProvider object obtains its auth information via an asynchronous process.
   //This means that attempting to use the auth object immediately on page load is
-  //likely to result in it being empty. You should wrap uses of the auth object properties
+  //likely to result in it being empty. As such there is an event 'token_set' that is emitted
+  //once 'auth.token' has been set. You can use it like so:
+  auth.event.on('token_set', cb)
+
+  function cb() {
+      someFuncThatRequiresToken(auth.token)
+  }
+
+  //Alternatively, you should wrap uses of the auth object properties
   //in functions that can be used once the data has been loaded.
+  
 
 </script>
 ```
