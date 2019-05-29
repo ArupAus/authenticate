@@ -1,1 +1,8 @@
-export { default as AuthUtils } from './AuthUtils'
+export {
+  isIn,
+  getSigningKey,
+  getTokenHeader,
+  decode,
+  authflow,
+  sign
+} from './AuthUtils'
