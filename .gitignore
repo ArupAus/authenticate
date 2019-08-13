@@ -1,0 +1,10 @@
+node_modules
+coverage
+
+//local files
+.DS_Store
+
+//package manager
+package-lock.json
+yarn-error.log
+yarn.lock
