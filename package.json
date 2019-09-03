@@ -1,11 +1,15 @@
 {
-  "name": "authenticate",
+  "name": "@arupaus/authenticate",
   "version": "1.0.2",
   "description": "Authenticate is a simple library to add authentication to your web application",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest",
     "compile": "webpack --config=./webpack.config.babel.js && webpack --config=BackEndUtils/webpack.config.babel.js"
+  },
+  "respository": "git://github.com/arupaus/authenticate.git",
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com/"
   },
   "author": "Arup Digital (https://github.com/ArupAus/)",
   "license": "MIT",
