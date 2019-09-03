@@ -1,6 +1,6 @@
 {
   "name": "authenticate",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Authenticate is a simple library to add authentication to your web application",
   "main": "lib/index.js",
   "scripts": {
