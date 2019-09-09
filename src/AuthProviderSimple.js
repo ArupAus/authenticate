@@ -21,7 +21,7 @@ function AuthProviderSimple(info, redirect, fetchUrl) {
   this.lock = new Auth0Lock(info.clientId, info.domain, {
     auth: {
       redirect: true,
-      redirectUrl: `${window.location.origin}`,
+      redirectUrl: `${info.redirectUrl}` || `${window.location.origin}`,
       responseType: 'token id_token',
       autoParseHash: true,
       audience: `https://${info.domain}/userinfo`,

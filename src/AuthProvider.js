@@ -19,6 +19,7 @@ export default class AuthProvider extends Component {
     clientId: PropTypes.string,
     domain: PropTypes.string,
     options: PropTypes.object,
+    redirectUrl: PropTypes.string,
     window: PropTypes.shape({
       localStorage: PropTypes.shape({
         setItem: PropTypes.func,
@@ -30,6 +31,7 @@ export default class AuthProvider extends Component {
     window: window || {},
     clientId: process.env.AUTH0_CLIENT_ID || '',
     domain: process.env.AUTH0_DOMAIN || '',
+    redirectUrl: window.location.origin || ''
   }
   static childContextTypes = {
     auth: authType,
@@ -56,7 +58,7 @@ export default class AuthProvider extends Component {
     this.lock = new Auth0Lock(this.props.clientId, this.props.domain, {
       auth: {
         redirect: true,
-        redirectUrl: `${this.props.window.location}`,
+        redirectUrl: `${this.props.redirectUrl}`,
         responseType: 'token id_token',
         autoParseHash: true,
         audience: `https://${this.props.domain}/userinfo`,
