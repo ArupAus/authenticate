@@ -1,4 +1,7 @@
 # Changelog
+## [1.0.3] - 2019-09-09
+### Added
+ - added option for redirectUrl to handle callbacks better
 
 ## [1.0.2] - 2019-09-03
 ### Fixed
