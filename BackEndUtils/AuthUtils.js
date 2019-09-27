@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
-import https from 'https'
 
 const AUTHO_ALG = process.env.AUTH_ALG || 'RS256'
 const CLAIM_NAMESPACE = process.env.AUTHZ_NAMESPACE || 'http://authz.arup.digital/authorization'

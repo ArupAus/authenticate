@@ -2,7 +2,6 @@ import { Component, Children } from 'react'
 import PropTypes from 'prop-types'
 import Auth0Lock from 'auth0-lock'
 import authType from './authType'
-import https from 'https'
 
 const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'authenticate-token'
 const ACCESS_TOKEN_SUFFIX = '-access-token'

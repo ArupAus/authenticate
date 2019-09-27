@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Auth0Lock from 'auth0-lock'
 import authType from './authType'
 import EventEmitter from './EventEmitter.js'
-import https from 'https'
 
 const TOKEN_KEY = process.env.AUTH_TOKEN_KEY || 'authenticate-token'
 const ACCESS_TOKEN_SUFFIX = '-access-token'
