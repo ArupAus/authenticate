@@ -1,10 +1,8 @@
 import path from 'path'
-import webpack from 'webpack'
 
 const ROOT = path.resolve(__dirname)
 const SRC = path.join(ROOT, 'src')
 const DIST = path.join(ROOT, 'lib')
-const NODE_MODULES = path.join(ROOT, 'node_modules')
 
 export default env => {
   const moduleRules = [
