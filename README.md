@@ -16,7 +16,7 @@ Currently Authenticate supports Auth0 as the service provider. All examples use 
 
 - clientID: taken from auth0 client
 - domain: take from auth0 client
-- options: any options you want to pass into Auth0Lock (**languageDictionary and theme are recommended!**)
+- options: any options you want to pass into [auth0-lock](https://www.npmjs.com/package/auth0-lock) (**languageDictionary and theme are recommended!**)
 
 For users new to developing websites or applications with sensitive information it is recommended that you read up on [Protecting Content for Privileged Access](./PROTECTINGCONTENT.md)
 
