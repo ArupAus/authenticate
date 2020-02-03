@@ -1,4 +1,9 @@
 # Changelog
+
+## [1.0.4] - 2020-02-03
+### Added
+ - updated packages and added support for ie11 
+
 ## [1.0.3] - 2019-09-09
 ### Added
  - added option for redirectUrl to handle callbacks better
